@@ -4,14 +4,24 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=1024"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <title>impress.js kata</title>
+    <title>svg-sandbox</title>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700,300,100' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=News+Cycle' rel='stylesheet' type='text/css'>
-    <link href="css/impress-dojo.css" rel="stylesheet"/>
+    <link href="css/continuous-delivery.css" rel="stylesheet"/>
 </head>
 <body class="impress-not-supported">
 
-<div class="impress">
+
+<div id="impress">
+
+    <div id="overlay" class="step" data-x="0" data-y="0" data-z="0" data-rotate="0">
+        <svg version="1.1" baseProfile="full" width="300" height="200">
+            <rect width="100%" height="100%" fill="red"/>
+            <circle r="80" fill="green" cx="150" cy="100"/>
+            <text x="150" y="125" font-size="60" text-anchor="middle" fill="white">SVG</text>
+        </svg>
+        <div class="footnote">... overlaying shapes</div>
+    </div>
 
 </div>
 
