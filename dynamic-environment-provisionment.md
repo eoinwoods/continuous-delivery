@@ -83,6 +83,7 @@ In summary we need dynamically provisioned environments because statically provi
 
 
 ## Principles for Environment Management
+---
 1. Execution resources (CPU, memory and disk) should be versioned alongside the software to that execution is repeatable
 1. Environment Management should not be costly and should be instant
 1. Application configuration should be minimised
@@ -96,8 +97,10 @@ In summary we need dynamically provisioned environments because statically provi
 1. One fundamental gap in most organisations testing strategy is "how to test production deployment before the release date".  In the normal process testing a system that is configured to be production is impossible (namespace violations at the least).  Through the use of a dynamically provisioned environment we can encapsulate the environment and test it as production.
 
 
+## Proof of Concept done to date
+---
 
-## The ask
+## What we need to take this forward
 
 Platform as a service
 
