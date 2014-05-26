@@ -49,7 +49,6 @@ These acceptance tests would be expected to be executed continuously from:
 * smoke and user demonstration environments
 
 ### Test environments
-
 We as a development organisation within UBS are continually being asked to drive down costs.  We would prefer to see this as becoming more efficient with the resources that we currently use and this is our internal strategy.  One of the biggest costs to us is in the physical resources that we use.  While we are provisioned virtual machines, they are a fixed specification and the lead time to change them is synonymous with physical hardware.  We currently employ the following fixed testing environments:
 
 * Pre-production: a production like envirnonment that is used for migration, deployment, operational, performance testing
@@ -58,7 +57,6 @@ We as a development organisation within UBS are continually being asked to drive
 * Smoke: a developer owned environment for giving demonstrations to users and verifying the end to end state with manual tests
 
 The above environment structure is really structured for an overall manual testing strategy with environment promotion of code versions.  If we were a single stream all working to common releases with fixed content and a waterfall development approach, this would work fine.
-
 
 ### Our environment requirements
 We are not operating under a waterfall development model.  Are embrace the learnings from Lean and Agile and this allows us to be flexible in our working approach.  In order to develop software efficiently we have some basic asks as a development organisation:
@@ -70,7 +68,6 @@ We are not operating under a waterfall development model.  Are embrace the learn
 This should apply for: the 100+ developers; the 500+ commit builds per sprint; the 30+ concurrently developed features; the 30+ demos per sprint.
 
 
-
 ## Why we need dynamic environments
 Local resources: the basic requirements for delivering a component build to an environment are such that developers are unable to deploy and run our application components to their local machines: Linux, minimum of 12Gb plus 8 dedicated logical CPUs, plus a dedicated Oracle schema.  If you consider that the majority of our developers are on the offshore VDI machines with 1 logical CPU and 6Gb available memory we are falling a long way short.  We cannot justify the cost of a dedicated environment for each team let alone for each developer.  Using a shared environment means contention between trhe 100+ developers to release and test their version of the code (this is the current model we have for Smoke and it simply does not work).  Additionally most developers need to deploy and test for a very short period of time and then they do not need the environment again for a few days.  The answer to the above is to allow for a dynamically provisioned environment.
 
@@ -80,23 +77,12 @@ Test the real application: to enable the deployment of our current automated tes
 
 Inability to respond to change: we currently operate under a model where we have a fixed number of test environments and each one leverages dedicated hardware to enable the environment.  If we have urgent requirements to support specific testing we are unable to deliver this at speed without compromising our existing environments (and by extension any project using it).  New hardware provisioning is expected to take around 6 weeks to deploy.  As such we need the ability to create new environments with fast turn around that are dedicated to the testing group that sponsors it.
 
-Effective use of resources: within the wider organisation we understand that virtualisation provides a better utilisation of hardware than physical provisionment.  The principles behind this 
+Effective use of resources: within the wider organisation we understand that virtualisation provides a better utilisation of hardware than physical provisionment.  The rationale behind this is that most non-production hardware is idle most of the time: time between test cycles; time as test teams are not in the office; time between developers deploying and testing in their own environments.  We believe that with the dynamic provisioning of environments comes the dynamic destruction of them when they are not used.  If we can bring the time to create and deploy to these environments down to below a minute we will view them as cheap disposable things with a short time to live.  This is how we achieve an optimal use of the resources to hand.
+
+In summary we need dynamically provisioned environments because statically provisioned environments are not fit for purpose for our development approach.  The fact that the environments are static impeeds our ability to move forward in an efficient manner and we believe will be cheaper for us in the longer term.
 
 
-
-In summary we need dynamically provisioned environements because statically provisioned environments are not fit for purpose for our development approach.  The fact that the environments are static impeeds our ability to move forward in an efficient manner.
-
-
-
-
-
-### Cost
- - internal chargeback model for the envs
- - relatively low utilisation
- - 
-
-
-### Principles for Environment Management
+## Principles for Environment Management
 1. Execution resources (CPU, memory, disk) should be versioned alongside the software to that execution is repeatable
 1. Environment Management should not be costly and should be instant
 1. Application configuration should be minimised
