@@ -69,23 +69,19 @@ We are not operating under a waterfall development model.  Are embrace the learn
 
 This should apply for: the 100+ developers; the 500+ commit builds per sprint; the 30+ concurrently developed features; the 30+ demos per sprint.
 
+
+
 ## Why we need dynamic environments
+The basic requirements for delivering a component build to an environment are such that developers are unable to deploy and run our application components to their local machines: Linux, minimum of 12Gb plus 8 dedicated logical CPUs, plus a dedicated Oracle schema.  If you consider that the majority of our developers are on the offshore VDI machines with 1 logical CPU and 6Gb available memory we are falling a long way short.  
 
-<blurb>
 
 
-### Principles for Environment Management
-1. Execution resources (CPU, memory, disk) should be versioned alongside the software to that execution is repeatable
-1. Environment Management should not be costly and should be instant
-1. Test environments should exactly match the production environment
-1. Production deployment should be tested before the production environment
 
-### Rationale
 
-1. Computer systems are a product of the hardware resources and the software that runs on them.  The importance of versioning software such that we can reliably rebuild a version with a minor modification is generally agreed upon.  The hardware provisioning is not as agreed upon.  Variances in the size and performance of the physical hardware between environments is dismissed as not affecting the functionality.  We often find this not to be the case.  Given the prevalence of environment configuration tooling and frameworks, such as [Puppet](http://puppetlabs.com/) and [Chef](http://www.getchef.com/) why are we still willing to make that compromise?  The principle here implies adoption of Infrastructure as Code techniques and the embedding of infrastructure configuration into your deployment process
-1. sdsd
-1.lkhj
-1. j
+In summary we need dynamically provisioned environements because statically provisioned environments are not fit for purpose for our development approach.  The fact that the environments are static impeeds our ability to move forward in an efficient manner.
+
+
+
 
 
 ### does not fit our model
@@ -104,7 +100,26 @@ This should apply for: the 100+ developers; the 500+ commit builds per sprint; t
  - relatively low utilisation
  - 
 
+
+### Principles for Environment Management
+1. Execution resources (CPU, memory, disk) should be versioned alongside the software to that execution is repeatable
+1. Environment Management should not be costly and should be instant
+1. Application configuration should be minimised
+1. Test environments should exactly match the production environment, thus allowing testing of the production environment
+
+### Rationale
+
+1. Computer systems are a product of the hardware resources and the software that runs on them.  The importance of versioning software such that we can reliably rebuild a version with a minor modification is generally agreed upon.  The hardware provisioning is not as agreed upon.  Variances in the size and performance of the physical hardware between environments is dismissed as not affecting the functionality.  We often find this not to be the case.  Given the prevalence of environment configuration tooling and frameworks, such as [Puppet](http://puppetlabs.com/) and [Chef](http://www.getchef.com/) why are we still willing to make that compromise?  The principle here implies adoption of Infrastructure as Code techniques and the embedding of infrastructure configuration into your deployment process
+1. The management of an environment should be treated as a fully automated process.  There is little added value in a manual solution, we are looking for repeatability rather than creativity in the provisioning of environments.  The repeatability should be achieved through automation tooling such as Puppet or Chef.  The time to create a fully running environment should be near to immediate as it is really just a logical grouping of accesses to physical resources.
+1. Software components allow for configuration so that environmental variances can be applied (here we distinguish between application wiring, application configuration and user driven static data).  The amount of configuration required will largely depend on the number and differences between the environments.  Through minimising the things that change in the application components we minimise the need for configurations in the system.  Largely these will be absorbed by the 
+1. j
+
+
+
+
 ## The ask
+
+Platform as a service
 
 We need the following two functions provided to us:
 1. The ability to programatically create and destroy a working platform, in a similar manner to that of AWS or the Open Stack model
