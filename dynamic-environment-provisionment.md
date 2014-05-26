@@ -2,9 +2,9 @@
 
 ## Context
 
-Securities Operations IT utilises over 100 software engineers split across 15 global locations.  The majority of effort spent by these teams is on two of the seven core application components.  The software engineers are grouped into Feature teams, with each team working on its own prioritised piece of work with little or no common work across the teams, to all intents and purposes they work independently of each other.  Each team sypically works on two features at a time.
+Securities Operations IT utilises over 100 software engineers split across 15 global locations.  The majority of effort spent by these teams is on two of the seven core application components.  The software engineers are grouped into Feature teams, with each team working on its own prioritised piece of work with little or no common work across the teams, to all intents and purposes they work independently of each other.  Each team typically works on two features at a time.
 
-We employ a feature branch model in the department with each feature segregated from the mainline until it is accepted (defined by the acceptance criteria for that feature) by our customers.
+We employ a feature branch model within the department with each feature segregated from the mainline until it is accepted (defined by the acceptance criteria for that feature) by our customers.
 
 Our acceptance testing approach is in the middle of a transition towards a more optimal model.  While we continue to use Unit Testing approaches for the developer focused testing, we are replacing a home grown acceptance testing framework (ATF) with Open Source frameworks focused at a more appropriate level.
 
