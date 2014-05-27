@@ -6,7 +6,7 @@ Securities Operations IT utilises over a hundred software engineers split across
 
 We employ a [feature branch](http://martinfowler.com/bliki/FeatureBranch.html) model within the department with each feature segregated from the mainline until it is accepted (defined by the acceptance criteria for that feature) by our customers.
 
-Our acceptance testing approach is in the middle of a transition towards a more optimal model.  While we continue to use Unit Testing approaches for the developer focused testing, we are replacing a home grown acceptance testing framework (ATF) with Open Source frameworks focused at a more appropriate level.
+Our acceptance testing approach is in the middle of a transition towards a more optimal model.  While we continue to use Unit Testing approaches for the developer focused testing, we are replacing a home grown Acceptance Test Framework (ATF) with Open Source frameworks focused at a more appropriate level.
 
 ### Incumbent Legacy Testing Strategy
 The ATF framework currently forms the core regression testing support for the department.  To allow this to run on developer machines and in a Continuous Integration model, a test version of the runtime caching framework has been developed.  Essentially this brings the distributed cache model into a single multi-threaded JVM.
@@ -26,11 +26,11 @@ There are a number of issues with the above testing approach:
 ### Emergent Testing Strategy
 There are two key changes to the current testing approach:
 
-1. Test at the right level
-1. Define acceptance criteria as tests
+1. Perform the testing at the right level
+1. Define feature acceptance criteria as tests
 
 #### Test at the right level
-The current use of black box testing for all changes in the system means that there is a lot of duplicated execution across the tests (for the 100 swift formatting tests we have to book 100 trades and process them to create the objects relevant to swift generation).  Additionally the test data injection is very loosely connected to the assertions of the tests.  We therefore see these 600+ ATF tests being broken out into two key dimensions:
+The ATF tests currently operate at too high a level (at the system level), giving rise to lots of duplication across the tests.  By way of example, our 100+ swift formatting tests should work over only the formatting modules, and not the whole system.  We therefore see these 600+ ATF tests being broken out across two key dimensions:
 
 1. The services and gateways.  In these tests, we will test the execution of the gateways and services against a mock cache.  They will be only focused on how these modules interact with objects in the cache and will assert based on the end state of objects in the cache.  This will mean that the individual services are tested at the appropriate level.  Alternative flow testing can happen in a more meaningful way (test data creation is more closely associated with the actual test scenarios).  These tests will be written in a structured syntax ([Gherkin](http://dannorth.net/whats-in-a-story/)) and the resultant documentation will form as the primary technical documentation for the component.
 1. The Black Box tests.  In these tests, we will test the system end to end and therefore focus on the business processes that the application supports.  We will use a fully deployed instance of the application using the exact frameworks and technologies that exist in production today.  These tests will be written in a [natural domain language](http://www.agileinsider.org/2010/04/natural-language-automated-acceptance-testing/) and the resultant documentation will form the primary functional/business level documentation for the component.
