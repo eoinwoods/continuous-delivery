@@ -2,7 +2,7 @@
 
 ## Context
 
-Securities Operations IT utilises over a hundred software engineers split across fifteen global locations.  The majority of effort spent by these teams is on two of the seven core application components.  The software engineers are grouped into Feature teams, with each team working on its own prioritised piece of work with little or no common work across the teams; to all intents and purposes they work independently of each other.  Each team typically works on two features at a time.
+Securities Operations IT utilises over a 100 software engineers split across 15 global locations.  The majority of effort spent by these teams is on two of the 7 core application components.  The software engineers are grouped into Feature teams, with each team working on its own prioritised piece of work with little or no common work across the teams; to all intents and purposes they work independently of each other.  Each team typically works on two features at a time.
 
 We employ a [feature branch](http://martinfowler.com/bliki/FeatureBranch.html) model within the department with each feature segregated from the mainline until it is accepted (defined by the acceptance criteria for that feature) by our customers.
 
@@ -69,13 +69,13 @@ This should apply for: the 100+ developers; the 500+ commit builds per sprint; t
 
 
 ## Why we need dynamic environments
-__Local resources__: the basic requirements for delivering a component build to an environment are such that developers are unable to deploy and run our application components to their local machines: Linux, minimum of 12GB plus 8 dedicated logical CPUs, plus a dedicated Oracle schema.  If you consider that the majority of our developers are on the offshore VDI machines with 1 logical CPU and 6GB available memory we are falling a long way short.  We cannot justify the cost of a dedicated environment for each team let alone for each developer.  Using a shared environment means contention between the 100+ developers to release and test their version of the code (this is the current model we have for Smoke and it simply does not work).  Additionally most developers need to deploy and test for a very short period of time and then they do not need the environment again for a few days.  The answer to the above is to allow for a dynamically provisioned environment.
+__Testing on local machines__: the basic requirements for delivering a component build to an environment are such that developers are unable to deploy and run our application components to their local machines: Linux, minimum of 12GB plus 8 dedicated logical CPUs, plus a dedicated Oracle schema.  If you consider that the majority of our developers are on the offshore VDI machines with 1 logical CPU and 6GB available memory we are falling a long way short.  We cannot justify the cost of a dedicated environment for each team let alone for each developer.  Using a shared environment means contention between the 100+ developers to release and test their version of the code (this is the current model we have for Smoke and it simply does not work).  Additionally most developers need to deploy and test for a very short period of time and then they do not need the environment again for a few days.  We have for many years attempted to schedule environment allocation and this works to a point, but as you scale beyond a few teams this becomes an unconquerable problem.  The answer to the above is to allow for a dynamically provisioned environment.
 
-__Stable master__: in the current testing approach, we need to converge the code branches to test them (single test environments).  This means that features are merged from their feature branches before we understand if they are integral.  The effect of this is a constant stream of broken builds and a fundamental inability to release to production at any given point in time.  Additionally we spend a large amount of money (in people time) resolving issues and confusion around these breaks.  As we scale up this problem gets worse (as experienced with the introduction of the FXMM development stream).  We need a mechanism by which we can deploy and test the code from the branches and prove it is sound before we merge to the master branch.  To enable this we need to deploy the code from the branch and run the automated regression suite.  For this we either allow for contention of the static environments or we employ dynamic environment provisioning.
+__Ensure master is stable__: in the current testing approach, we need to converge the code branches to test them (single test environments).  This means that features are merged from their feature branches before we understand if they are integral and sound.  The effect of this is a constant stream of broken builds and a fundamental inability to release to production at any given point in time.  Additionally we spend a large amount of money (in people time) resolving issues and confusion around these breaks.  As we scale up this problem gets worse (as experienced with the introduction of the FXMM development stream).  We need a mechanism by which we can deploy and test the code from the branches and prove it is sound before we merge to the master branch.  To enable this we need to deploy the code from the branch and run the automated regression suite in full.  For this we either allow for contention of the static environments or we employ dynamic environment provisioning.  Our attempts to date have found that the former is impossible, and thus we really need a dynamic approach.
 
-__Test the real application__: to enable the deployment of our current automated testing, we package our application into a fake environment that resides in a single JVM.  This fake environment breaches the principle of releasing the thing you have tested and therefore invalidates the testing.  To overcome this we need to be able to deploy our application components and test them in parallel to other deploy/test builds on other versions/branches of the codebase.
+__Test the real application__: to enable the deployment of our current automated testing, we package our application against a mock (test only) version of our production caching framework that resides in a single JVM.  This fake environment breaches the principle of releasing the thing you have tested and therefore invalidates the testing.  To overcome this we need to be able to deploy our application components and test them in parallel to other deploy/test builds on other versions/branches of the codebase.
 
-__Inability to respond to change__: we currently operate under a model where we have a fixed number of test environments and each one leverages dedicated hardware to enable the environment.  If we have urgent requirements to support specific testing we are unable to deliver this at speed without compromising our existing environments (and by extension any project using it).  New hardware provisioning is expected to take around 6 weeks to deploy.  As such we need the ability to create new environments with fast turnaround that are dedicated to the testing group that sponsors it.
+__Responding to change__: we currently operate under a model where we have a fixed number of test environments and each one leverages dedicated hardware to enable the environment.  If we have urgent requirements to support specific testing we are unable to deliver this at speed without compromising our existing environments (and by extension any projects using it).  New infrastructure provisioning (physical or virtual) is expected to take around 6 weeks to deploy.  We really need this on demand and often for only a few hours.  As such we need the ability to create new environments with fast turnaround that are dedicated to the testing group that needs it.
 
 __Effective use of resources__: within the wider organisation we understand that virtualisation provides a better utilisation of hardware than physical provisioning.  The rationale behind this is that most non-production hardware is idle most of the time: time between test cycles; time as test teams are not in the office; time between developers deploying and testing in their own environments.  We believe that with the dynamic provisioning of environments comes the dynamic destruction of them when they are not used.  If we can bring the time to create and deploy to these environments down to below a minute we will view them as cheap disposable things with a short time to live.  This is how we achieve an optimal use of the resources to hand.
 
@@ -83,12 +83,12 @@ In summary we need dynamically provisioned environments because statically provi
 
 
 ## Principles for Environment Management
-1. Execution resources (CPU, memory and disk) should be versioned alongside the software to that execution is repeatable
-1. Environment Management should not be costly and should be instant
-1. Application configuration should be minimised
-1. Test environments should exactly match the production environment, thus allowing testing of the production environment
+1. Environmental __resource should be versioned__ alongside the software so that execution is repeatable
+1. Environment Management __should not be costly__ and should be instant
+1. Application __configuration should be minimised__
+1. Test environments should __exactly match the production environment__, thus allowing testing of the production environment
 
-### Rationale
+### Rationale for the principles
 
 1. Computer systems are a product of the hardware resources and the software that runs on them.  The importance of versioning software such that we can reliably rebuild a version with a minor modification is generally agreed upon.  The hardware provisioning is not as agreed upon.  Variance in the size and performance of the physical hardware between environments is dismissed as not affecting the functionality.  We often find this not to be the case.  Given the prevalence of environment configuration tooling and frameworks, such as [Puppet](http://puppetlabs.com/) and [Chef](http://www.getchef.com/) why are we still willing to make that compromise?  The principle here implies adoption of [Infrastructure as Code](http://jenssegers.be/blog/44/infrastructure-as-code) techniques and the embedding of infrastructure configuration into your deployment process
 1. The management of an environment should be treated as a fully automated process.  There is little added value in a manual solution; we are looking for repeatability rather than creativity in the provisioning of environments.  The repeatability should be achieved through automation tooling such as Puppet or Chef.  The time to create a fully running environment should be near to immediate as it is really just a logical grouping of accesses to physical resources.
@@ -97,10 +97,50 @@ In summary we need dynamically provisioned environments because statically provi
 
 
 ## Proof of Concept done to date
-Working closely with the CTO organisation we have conducted a Proof of Concept that aimed to show how we can use Virtualisation Technologies to dynamically provision an environment.  The key findings of this proof of concept are:
+Working closely with the CTO organisation we have conducted a Proof of Concept that aimed to show how we can use Virtualisation Technologies to dynamically provision an environment.  
+
+
+### Execution details
+The high level usecase is that everytime a change is made to the application codebase the following steps are automatically execusted:
+
+1. Create and launch the virtual hardware:
+    * A compute server to host our application
+    * A Oracle database instance for the database
+    * A test compute server to execute the tests, segregated from the deployed application
+1. Configure the virtual hosts:
+    * To resolve each others IPs (DNS)
+    * To enable us to deploy and execute our applications
+1. Create a pseudo-HUFS mount localy to release our application and any external dependencies
+1. Release our application to the virtual hosts:
+    * Configure and deploy our application
+    * Import database from production dump and migrate it to the new version
+    * Install a Apache AMQ messaging broker
+1. Start our application
+1. Execute the tests
+1. Destroy the virtual machines, subject to successful test execution
+
+This all takes less time than it took to write.
+
+### Technology choices
+
+The following technology choices were chosen for the simplicity of build plus the open availability within the bank and the wider open source community:
+
+* __Openstack__: loosely binds us to a collection of virtualisation enabling technologies.  Essentially this opensource framework allows us to swap in an out different complimentary technologues so that we are not coupled to any single implementation (no lock in).  Additionally, Openstack provides a rich RESTful API that allows us to interact with it at the level we need.  This is likely to become the de-facto standard for virtualisation technologies in the years to come.  We note that right now it is painful to use, yet expect it to become less so in the future.
+* __VMWare ESXi__: this is the hypervisor of choice to comply with our existing virtualisation infrastructure.
+* __CentOS__: this is the closed Linux implementation to our internal standards.  Ideally we would have used an internal image.
+* __Oracle__: this closely aligns us to our current production topology.
+
+To abstract ourselves from any of these underlying technologies we have developed an in-house orchestration API that can be bound to any virtualisation technology (including container based solutions such as [Docker](http:..)).  Indeed it is felt by the team that the cloud technology space is still yound and developing such that any coupling to technologies could be costly in the longer term.
 
 
 ## What we need to take this forward
+
+Cloud deployments operate at different levels as below:
+
+1. __Infrastructure as a Service__ ([IaaS](http://en.wikipedia.org/wiki/Infrastructure_as_a_service)): 
+1. __Platform as a Service__ ([Paas](http://en.wikipedia.org/wiki/Platform_as_a_service)):
+1. __Software as a Service__ ([SaaS](http://en.wikipedia.org/wiki/Software_as_a_service)):
+
 
 Platform as a service
 
@@ -108,7 +148,7 @@ We need the following two functions provided to us:
 1. The ability to programatically create and destroy a working platform, in a similar manner to that of AWS or the Open Stack model
 1. The ability to orchestrate 
 
-In short, we are looking for a platform as a service layered model with the Infrastructure Services providing the [IaaS](http://en.wikipedia.org/wiki/Infrastructure_as_a_service) layering and the engineering teams providing the [PaaS](http://en.wikipedia.org/wiki/Platform_as_a_service) layer.
+In short, we are looking for a platform as a service layered model with the Infrastructure Services providing the [IaaS](http://en.wikipedia.org/wiki/Infrastructure_as_a_service) layering and the engineering teams providing the [PaaS] layer.
 
 
 
