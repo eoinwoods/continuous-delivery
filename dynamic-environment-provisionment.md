@@ -83,7 +83,6 @@ In summary we need dynamically provisioned environments because statically provi
 
 
 ## Principles for Environment Management
----
 1. Execution resources (CPU, memory and disk) should be versioned alongside the software to that execution is repeatable
 1. Environment Management should not be costly and should be instant
 1. Application configuration should be minimised
