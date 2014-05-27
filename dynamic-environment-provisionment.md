@@ -2,7 +2,7 @@
 
 ## Context
 
-Securities Operations IT utilises over 100 software engineers split across 15 global locations.  The majority of effort spent by these teams is on two of the seven core application components.  The software engineers are grouped into Feature teams, with each team working on its own prioritised piece of work with little or no common work across the teams; to all intents and purposes they work independently of each other.  Each team typically works on two features at a time.
+Securities Operations IT utilises over a hundred software engineers split across fifteen global locations.  The majority of effort spent by these teams is on two of the seven core application components.  The software engineers are grouped into Feature teams, with each team working on its own prioritised piece of work with little or no common work across the teams; to all intents and purposes they work independently of each other.  Each team typically works on two features at a time.
 
 We employ a [feature branch](http://martinfowler.com/bliki/FeatureBranch.html) model within the department with each feature segregated from the mainline until it is accepted (defined by the acceptance criteria for that feature) by our customers.
 
@@ -98,7 +98,8 @@ In summary we need dynamically provisioned environments because statically provi
 
 
 ## Proof of Concept done to date
----
+Working closely with the CTO organisation we have conducted a Proof of Concept that aimed to show how we can use Virtualisation Technologies to dynamically provision an environment.  The key findings of this proof of concept are:
+
 
 ## What we need to take this forward
 
@@ -107,6 +108,8 @@ Platform as a service
 We need the following two functions provided to us:
 1. The ability to programatically create and destroy a working platform, in a similar manner to that of AWS or the Open Stack model
 1. The ability to orchestrate 
+
+In short, we are looking for a platform as a service layered model with the Infrastructure Services providing the [IaaS](http://en.wikipedia.org/wiki/Infrastructure_as_a_service) layering and the engineering teams providing the [PaaS](http://en.wikipedia.org/wiki/Platform_as_a_service) layer.
 
 
 
